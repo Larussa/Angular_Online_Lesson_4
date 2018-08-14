@@ -1,0 +1,49 @@
+<div class="card-body">
+  <form #form = "ngForm">
+    <h4 class="card-title text-center"> {{ formPost.id ? 'Here you can edit the post' : 'Here you can add a new post' }} </h4>
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="title">Title<span>*</span></label>
+        <input
+          type="text"
+          id='title'
+          class="form-control"
+          [(ngModel)]="formPost.title"
+          name="title"
+          [ngClass]="{'is-invalid':postTitle.errors && form.submitted}"
+          #postTitle="ngModel"
+          required
+          minlength="3"
+        >
+        <div class="invalid-feedback" [hidden]="!postTitle.errors?.required">Field Title required</div>
+        <div class="invalid-feedback" [hidden]="!postTitle.errors?.minlength"> Field Title must be at least 2 char</div>
+      </div>
+    </div>
+    <!-- /.form-row-->
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="body">Your text<span>*</span></label>
+        <textarea
+          class="form-control"
+          id="body"
+          rows="3"
+          [(ngModel)]="formPost.body"
+          [ngClass]="{'is-invalid':postBody.errors && form.submitted}"
+          #postBody="ngModel"
+          name="body"
+          minlength="20"
+          required
+        >
+          </textarea>
+        <div class="invalid-feedback" [hidden]="!postBody.errors?.required">Field Your text required</div>
+        <div class="invalid-feedback" [hidden]="!postBody.errors?.minlength">Field Your text must be at least 20 char</div>
+      </div>
+    </div>
+    <!-- /.form-row-->
+    <button type="submit" class="btn btn-outline-info mb-3"  *ngIf="!formPost.id" (click)="onAddPost()" [disabled]="form.invalid">Add Post</button>
+    <button type="submit" class="btn btn-outline-info mb-3 ml-2" *ngIf="formPost.id" [disabled]="form.invalid" (click)="onEdit()">Edit Post</button>
+    <button type="submit" class="btn btn-outline-info mb-3 ml-2"  *ngIf="formPost.id" (click)="onCancel()">Cancel</button>
+    <p><span>*</span> All required fields must be filled out <p>
+  </form>
+  <!-- ./ form-->
+</div>

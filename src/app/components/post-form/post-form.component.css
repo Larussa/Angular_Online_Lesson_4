@@ -1,0 +1,10 @@
+label span, p span {
+  color: #dc3545;
+  margin-left: 3px;
+  font-weight: 500;
+  font-style: italic;
+}
+label {
+  color: #17a2b8;;
+}
+

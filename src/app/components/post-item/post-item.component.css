@@ -1,0 +1,28 @@
+p span {
+  color: #dc3545;
+  margin-left: 3px;
+  font-weight: 600;
+  font-style: italic;
+  font-size: 9pt;
+}
+h6, h4 {
+  color: #17a2b8;
+}
+p {
+  margin-bottom: 6px;
+}
+.card_font {
+  font-size: 9pt;
+}
+.p-email {
+  font-weight: 600;
+}
+.card-form {
+  background-color: #FFFAFA;
+}
+.bg-secondary, .bg-secondary h6 {
+  color: #FFF;
+}
+.bg-secondary h6 {
+  color: #000;
+}

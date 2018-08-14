@@ -1,0 +1,29 @@
+<div class="card" [ngClass]="{'bg-secondary': itIsEdit }">
+  <div class="card-body">
+    <h6 class="card-title">{{ postItem.title | uppercase }}</h6>
+    <p class="card-text"> {{ postItem.body }}</p>
+    <button class="btn btn-outline-info m-1" (click)="getPostComments(postItem)">
+      {{ postItem.comments ? 'Hide comments' : 'Show comments' }}
+    </button>
+    <button class="btn btn-outline-warning m-1" (click)="onEdit(postItem)" *ngIf="!itIsEdit">Edit post</button>
+    <button class="btn btn-outline-warning m-1" *ngIf="itIsEdit" (click)="onCancel()">Cancel</button>
+    <button class="btn btn-outline-danger m-1" (click)="onDelete(postItem.id)">Delete post</button>
+    <div class="card mt-3" *ngIf="postItem.comments">
+      <h6 class="card-header"> Comments </h6>
+      <div class="card-body">
+        <div class="card-text card_font mb-2" *ngFor="let comment of postItem.comments; let i = index">
+          <h6 class="mb-2">Comment {{ i + 1 }} </h6>
+          <p> <span>Name</span>: {{ comment.name }} </p>
+          <p class="p-email"> <span >Email</span>: {{ comment.email }} </p>
+          <p> <span>Comment</span>: {{ comment.body }}</p>
+        </div>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+  <!-- /.card-body -->
+</div>
+<!-- /.card -->
+
+
