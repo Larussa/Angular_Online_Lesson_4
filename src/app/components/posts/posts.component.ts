@@ -18,10 +18,8 @@ export class PostsComponent implements OnInit {
     private spinner: NgxSpinnerService) {}
 
   ngOnInit() {
-    this.spinner.show();
     this.postService.getPosts().subscribe((request: Post[]) => {
         this.posts = request;
-        this.spinner.hide();
       },
       error => console.error(error.message)
     );
