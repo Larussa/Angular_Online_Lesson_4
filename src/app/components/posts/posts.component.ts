@@ -25,7 +25,6 @@ export class PostsComponent implements OnInit {
       },
       error => console.error(error.message)
     );
-
   }
 
   onAddPost(post: Post): void {
@@ -55,6 +54,7 @@ export class PostsComponent implements OnInit {
       this.toastr.success('post deleted success','message')
     }, error => {
       this.toastr.error("Post was not deleted", "Error", { timeOut: 2000 });
+      this.spinner.hide();
     });
   }
 }

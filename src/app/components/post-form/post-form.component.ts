@@ -50,6 +50,7 @@ export class PostFormComponent implements OnInit {
       }, 2000);
       }, error => {
       this.toastr.error(error.message, error);
+      this.spinner.hide();
     });
   }
 

@@ -60,6 +60,7 @@ export class PostItemComponent implements OnInit {
         this.spinner.hide();
       }, error => {
         this.toastr.error(error.message, error);
+        this.spinner.hide();
       });
     }
   }
