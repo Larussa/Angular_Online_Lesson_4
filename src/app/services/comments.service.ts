@@ -7,7 +7,7 @@ import {Observable} from "rxjs/index";
   providedIn: 'root'
 })
 export class CommentsService {
-  private apiUrl: string = environment.api_url;
+  private apiUrl = environment.api_url;
   constructor( private http: HttpClient ) {}
 
   public getComments(postId: number): Observable<Comment[]> {

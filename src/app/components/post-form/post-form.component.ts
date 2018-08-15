@@ -29,11 +29,11 @@ export class PostFormComponent implements OnInit {
 
   ngOnInit() {
     this.postService.editTaskEvent.subscribe((updatePost: Post) => {
-      this.resetPostEvent(updatePost);
+      this.togglePostEvent(updatePost);
     });
   }
 
-  private resetPostEvent(updatePost: Post) {
+  private togglePostEvent(updatePost: Post) {
     this.form.resetForm();
     this.formPost = updatePost;
   }
@@ -57,20 +57,18 @@ export class PostFormComponent implements OnInit {
     this.spinner.show();
     const addNewPost = this.postService.addFormPost(this.formPost);
     this.postService.updatePost(addNewPost).subscribe((updatedPost: Post) => {
-          this.spinner.hide();
-          this.onEditPost.emit(updatedPost);
-          this.onCancel();
-        },
-        error => {
-          this.spinner.hide();
-          this.toastr.error("Post was not updated", "Error", { timeOut: 3000 });
-        }
-      );
+      this.spinner.hide();
+      this.onEditPost.emit(updatedPost);
+      this.onCancel();
+      },error => {
+        this.spinner.hide();
+        this.toastr.error("Post was not updated", "Error", { timeOut: 3000 });
+      }
+    );
   }
 
   onCancel(): void {
     this.form.resetForm();
     this.postService.emitEditEvent({ title: '', body: '', userId: 1 });
   }
-
 }

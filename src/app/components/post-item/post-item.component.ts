@@ -28,10 +28,10 @@ export class PostItemComponent implements OnInit {
   ngOnInit() {
     this.postService.editTaskEvent
       .pipe(filter(() => this.itIsEdit)).subscribe((updatePost: Post) => {
-        this.resetPostEvent(updatePost);
+        this.togglePostEvent(updatePost);
       });
   }
-  private resetPostEvent(updatePost: Post) {
+  private togglePostEvent(updatePost: Post) {
     if (this.postItem.id !== updatePost.id) {
       this.itIsEdit = false;
     }
@@ -58,11 +58,9 @@ export class PostItemComponent implements OnInit {
       this.commentService.getComments(post.id).subscribe((request: Comment[]) => {
         post.comments = request;
         this.spinner.hide();
-
       }, error => {
         this.toastr.error(error.message, error);
       });
     }
   }
-
 }

@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable } from "rxjs/index";
 })
 
 export class PostsService {
-  private apiUrl: string = environment.api_url;
+  private apiUrl = environment.api_url;
   private editTask: BehaviorSubject<Post> = new BehaviorSubject({ title: '', body: '', userId: 1 });
   public editTaskEvent = this.editTask.asObservable();
   constructor( private http: HttpClient ) {}

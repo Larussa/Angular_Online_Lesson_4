@@ -7,4 +7,6 @@ label span, p span {
 label {
   color: #17a2b8;;
 }
-
+.card-form {
+  background-color: #FFFAFA;
+}

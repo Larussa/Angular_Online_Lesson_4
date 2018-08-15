@@ -12,7 +12,6 @@ import { NgxSpinnerService } from "ngx-spinner";
 
 export class PostsComponent implements OnInit {
   public posts: Post[];
-
   constructor(
     private postService: PostsService,
     private toastr: ToastrService,
@@ -20,7 +19,6 @@ export class PostsComponent implements OnInit {
 
   ngOnInit() {
     this.spinner.show();
-
     this.postService.getPosts().subscribe((request: Post[]) => {
         this.posts = request;
         this.spinner.hide();
@@ -36,9 +34,7 @@ export class PostsComponent implements OnInit {
   }
 
   onEditPost(updatePost: Post): void {
-
     const updatePostIndex = this.posts.findIndex(el => el.id === updatePost.id);
-
     if (updatePostIndex === -1) {
       this.toastr.success("post was not edited", "Info", { timeOut: 2000 });
       return;
@@ -47,6 +43,7 @@ export class PostsComponent implements OnInit {
       this.toastr.success("Post was successfully updated", "Info", { timeOut: 2000 });
     }
   }
+
   onDelete(id: number): void {
     this.spinner.show();
     this.postService.deletePost(id).subscribe((data: Object) => {
