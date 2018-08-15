@@ -31,7 +31,7 @@ export class PostItemComponent implements OnInit {
         this.togglePostEvent(updatePost);
       });
   }
-  private togglePostEvent(updatePost: Post) {
+  togglePostEvent(updatePost: Post) {
     if (this.postItem.id !== updatePost.id) {
       this.itIsEdit = false;
     }
@@ -50,7 +50,7 @@ export class PostItemComponent implements OnInit {
     this.postService.emitEditEvent({userId: 2, title: '', body: ''});
   }
 
-  public getPostComments(post: Post): void {
+  getPostComments(post: Post): void {
     if (post.comments) {
       post.comments = null;
     } else {

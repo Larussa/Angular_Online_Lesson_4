@@ -38,23 +38,21 @@ export class PostFormComponent implements OnInit {
     this.formPost = updatePost;
   }
 
-  public onAddPost(): void {
+  onAddPost(): void {
     this.spinner.show();
     const addNewPost = this.postService.addFormPost(this.formPost);
     this.postService.addPost(addNewPost).subscribe((request: Post) => {
       addNewPost.id = request.id;
       this.onAddNewPost.emit(addNewPost);
       this.onCancel();
-      setTimeout(() => {
-        this.spinner.hide();
-      }, 2000);
-      }, error => {
-      this.toastr.error(error.message, error);
       this.spinner.hide();
+      }, error => {
+      this.spinner.hide();
+      this.toastr.error(error.message, error);
     });
   }
 
-  public onEdit(): void {
+  onEdit(): void {
     this.spinner.show();
     const addNewPost = this.postService.addFormPost(this.formPost);
     this.postService.updatePost(addNewPost).subscribe((updatedPost: Post) => {
@@ -63,7 +61,7 @@ export class PostFormComponent implements OnInit {
       this.onCancel();
       },error => {
         this.spinner.hide();
-        this.toastr.error("Post was not updated", "Error", { timeOut: 3000 });
+        this.toastr.error("Post was not updated", "Error");
       }
     );
   }

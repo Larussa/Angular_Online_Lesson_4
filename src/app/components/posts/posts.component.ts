@@ -27,7 +27,7 @@ export class PostsComponent implements OnInit {
 
   onAddPost(post: Post): void {
     this.posts.unshift(post);
-    this.toastr.success("New post was successfully add", "Info", { timeOut: 2000 });
+    this.toastr.success("New post was successfully add", "Info");
   }
 
   onEditPost(updatePost: Post): void {
@@ -37,7 +37,7 @@ export class PostsComponent implements OnInit {
       return;
     } else {
       this.posts[updatePostIndex] = updatePost;
-      this.toastr.success("Post was successfully updated", "Info", { timeOut: 2000 });
+      this.toastr.success("Post was successfully updated", "Info");
     }
   }
 
@@ -49,7 +49,7 @@ export class PostsComponent implements OnInit {
         setTimeout(() => {
           this.spinner.hide();
         }, 2000);
-      this.toastr.success('post deleted success','message')
+      this.toastr.success('post deleted success','message');
     }, error => {
       this.toastr.error("Post was not deleted", "Error", { timeOut: 2000 });
       this.spinner.hide();
