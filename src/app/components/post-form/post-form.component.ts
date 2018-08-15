@@ -12,11 +12,10 @@ import { ToastrService } from 'node_modules/ngx-toastr';
 })
 export class PostFormComponent implements OnInit {
   @Output() onAddNewPost: EventEmitter<Post> = new EventEmitter();
-  @Output() onEditPost: EventEmitter<Post> = new EventEmitter();
-
+  @Output() updatePost: EventEmitter<Post> = new EventEmitter();
   @ViewChild("form") form: NgForm;
 
-  formPost: Post = {
+  formData: Post = {
     userId: 1,
     title: '',
     body: '',
@@ -28,46 +27,40 @@ export class PostFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.postService.editTaskEvent.subscribe((updatePost: Post) => {
-      this.togglePostEvent(updatePost);
+    this.postService.editTaskEvent.subscribe((post:Post) => {
+      this.formData = post;
     });
   }
 
-  private togglePostEvent(updatePost: Post) {
-    this.form.resetForm();
-    this.formPost = updatePost;
-  }
-
-  onAddPost(): void {
+  onAddPost(form): void {
+    let addNewPost: Post = {
+      userId: this.formData.userId,
+      title: this.formData.title ,
+      body: this.formData.body,
+    };
     this.spinner.show();
-    const addNewPost = this.postService.addFormPost(this.formPost);
     this.postService.addPost(addNewPost).subscribe((request: Post) => {
       addNewPost.id = request.id;
       this.onAddNewPost.emit(addNewPost);
-      this.onCancel();
       this.spinner.hide();
-      }, error => {
+    }, error => {
       this.spinner.hide();
       this.toastr.error(error.message, error);
     });
+    form.resetForm();
   }
 
-  onEdit(): void {
-    this.spinner.show();
-    const addNewPost = this.postService.addFormPost(this.formPost);
-    this.postService.updatePost(addNewPost).subscribe((updatedPost: Post) => {
-      this.spinner.hide();
-      this.onEditPost.emit(updatedPost);
-      this.onCancel();
-      },error => {
-        this.spinner.hide();
-        this.toastr.error("Post was not updated", "Error");
-      }
-    );
+  onEditPost(): void {
+    const updatePost: Post = {
+      userId: this.formData.userId,
+      title: this.formData.title,
+      body: this.formData.body,
+      id: this.formData.id,
+    };
+    this.updatePost.emit(updatePost);
   }
 
   onCancel(): void {
-    this.form.resetForm();
-    this.postService.emitEditEvent({ title: '', body: '', userId: 1 });
+    this.postService.emitEditEvent({title: '', body: '', userId: 1});
   }
 }

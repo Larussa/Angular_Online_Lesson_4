@@ -1,6 +1,6 @@
 <div class="card-body card-form">
   <form #form = "ngForm">
-    <h4 class="card-title text-center"> {{ formPost.id ? 'Here you can edit the post' : 'Here you can add a new post' }} </h4>
+    <h4 class="card-title text-center"> {{ formData.id ? 'Here you can edit the post' : 'Here you can add a new post' }} </h4>
     <div class="form-row">
       <div class="form-group col-md-12">
         <label for="title">Title<span>*</span></label>
@@ -8,7 +8,7 @@
           type="text"
           id='title'
           class="form-control"
-          [(ngModel)]="formPost.title"
+          [(ngModel)]="formData.title"
           name="title"
           [ngClass]="{'is-invalid':postTitle.errors && form.submitted}"
           #postTitle="ngModel"
@@ -27,7 +27,7 @@
           class="form-control"
           id="body"
           rows="3"
-          [(ngModel)]="formPost.body"
+          [(ngModel)]="formData.body"
           [ngClass]="{'is-invalid':postBody.errors && form.submitted}"
           #postBody="ngModel"
           name="body"
@@ -40,9 +40,9 @@
       </div>
     </div>
     <!-- /.form-row-->
-    <button type="submit" class="btn btn-outline-info mb-3"  *ngIf="!formPost.id" (click)="onAddPost()" [disabled]="form.invalid">Add Post</button>
-    <button type="submit" class="btn btn-outline-info mb-3 ml-2" *ngIf="formPost.id" [disabled]="form.invalid" (click)="onEdit()">Edit Post</button>
-    <button type="submit" class="btn btn-outline-info mb-3 ml-2"  *ngIf="formPost.id" (click)="onCancel()">Cancel</button>
+    <button type="submit" class="btn btn-outline-info mb-3"  *ngIf="!formData.id" (click)="onAddPost(form)" [disabled]="form.invalid">Add Post</button>
+    <button type="submit" class="btn btn-outline-info mb-3 ml-2" *ngIf="formData.id" [disabled]="form.invalid" (click)="onEditPost()">Edit Post</button>
+    <button type="submit" class="btn btn-outline-info mb-3 ml-2"  *ngIf="formData.id" (click)="onCancel()">Cancel</button>
     <p><span>*</span> All required fields must be filled out <p>
   </form>
   <!-- ./ form-->

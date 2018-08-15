@@ -6,9 +6,9 @@
     loadingText="Loading..."
     type="ball-scale-multiple">
   </ngx-spinner>
-  <app-post-form class="card card-form mb-3" (onAddNewPost)="onAddPost($event)" (onEditPost)='onEditPost($event)'></app-post-form>
+  <app-post-form class="card card-form mb-3" (onAddNewPost)="onAddPost($event)" (editPost) = "onEdit($event)" (updatePost)="updatePost($event)"></app-post-form>
   <div class="row">
-    <app-post-item *ngFor="let post of posts" class="col col-12 mb-3" [post]="post" (deletePost)="onDelete($event)"></app-post-item>
+    <app-post-item *ngFor="let post of posts" class="col col-12 mb-3" [post]="post" (deletePost)="onDelete($event)" (editPost) = "onEdit($event)"></app-post-item>
   </div>
   <!-- /.row-->
 </div>

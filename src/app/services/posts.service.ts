@@ -23,20 +23,10 @@ export class PostsService {
   public emitEditEvent(post: Post): void {
     this.editTask.next(post);
   }
-  public updatePost(post: Post): Observable<Post> {
-    return this.http.put<Post>(`${this.apiUrl}/posts/${post.id}`, post);
+  public editPost(post: Post): Observable<Post> {
+    return this.http.patch<Post>(`${this.apiUrl}/posts/${post.id}`,post);
   }
   public deletePost(id: number): Observable<Object> {
     return this.http.delete<Object>(`${this.apiUrl}/posts/${id}`);
-  }
-  public addFormPost(post: Post): Post {
-    const addNewPost: Post = {
-      userId: post.userId,
-      id: post.id,
-      title: post.title,
-      body: post.body,
-      comments: post.comments
-    };
-    return addNewPost;
   }
 }

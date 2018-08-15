@@ -1,12 +1,12 @@
-<div class="card" [ngClass]="{'bg-secondary': itIsEdit }">
+<div class="card" [ngClass]="{ 'bg-secondary':editPostId === postItem.id }">
   <div class="card-body">
     <h6 class="card-title">{{ postItem.title | uppercase }}</h6>
     <p class="card-text"> {{ postItem.body }}</p>
     <button class="btn btn-outline-info m-1" (click)="getPostComments(postItem)">
       {{ postItem.comments ? 'Hide comments' : 'Show comments' }}
     </button>
-    <button class="btn btn-outline-warning m-1" (click)="onEdit(postItem)" *ngIf="!itIsEdit">Edit post</button>
-    <button class="btn btn-outline-warning m-1" *ngIf="itIsEdit" (click)="onCancel()">Cancel</button>
+    <button class="btn btn-outline-warning m-1" (click)="onEdit(postItem)" *ngIf="!editPostId">Edit post</button>
+    <button class="btn btn-outline-warning m-1" *ngIf="editPostId" (click)="onCancel()">Cancel</button>
     <button class="btn btn-outline-danger m-1" (click)="onDelete(postItem.id)">Delete post</button>
     <div class="card mt-3" *ngIf="postItem.comments">
       <h6 class="card-header"> Comments </h6>

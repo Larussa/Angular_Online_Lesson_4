@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PostsService } from "../../services/posts.service";
 import { Post } from "../../models/Post";
 import { ToastrService } from "ngx-toastr";
@@ -18,40 +18,44 @@ export class PostsComponent implements OnInit {
     private spinner: NgxSpinnerService) {}
 
   ngOnInit() {
-    this.postService.getPosts().subscribe((request: Post[]) => {
-        this.posts = request;
-      },
-      error => console.error(error.message)
-    );
+    this.spinner.show();
+    this.postService.getPosts().subscribe((posts: Post[]) => {
+      this.posts = posts;
+      this.spinner.hide();
+    },error => {
+      this.toastr.error(error.message, "Error");
+      this.spinner.hide();
+    });
   }
 
-  onAddPost(post: Post): void {
-    this.posts.unshift(post);
-    this.toastr.success("New post was successfully add", "Info");
+  onEdit (post: Post): void {
+    this.postService.emitEditEvent(post);
   }
 
-  onEditPost(updatePost: Post): void {
-    const updatePostIndex = this.posts.findIndex(el => el.id === updatePost.id);
-    if (updatePostIndex === -1) {
-      this.toastr.success("post was not edited", "Info", { timeOut: 2000 });
-      return;
-    } else {
-      this.posts[updatePostIndex] = updatePost;
-      this.toastr.success("Post was successfully updated", "Info");
-    }
+  updatePost(post: Post): void {
+    this.postService.editPost(post).subscribe((updatedPost: Post) => {
+      this.posts.forEach( post => {
+        if (post.id === updatedPost.id) {
+          Object.assign(post, updatedPost);
+        }
+      });
+      this.toastr.success('post deleted success','message');
+    }, error => {
+      this.toastr.error("Post was not deleted", "Error");
+      this.spinner.hide();
+    });
+    this.onEdit({title: '', body: '', userId: 1});
   }
 
   onDelete(id: number): void {
     this.spinner.show();
     this.postService.deletePost(id).subscribe((data: Object) => {
-      this.posts = this.posts.filter(filteredPost => filteredPost.id != id);
+      this.posts = this.posts.filter(filteredPost => filteredPost.id !== id);
       this.postService.emitEditEvent({userId: 1, title: '', body: ''});
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 2000);
+      this.spinner.hide();
       this.toastr.success('post deleted success','message');
     }, error => {
-      this.toastr.error("Post was not deleted", "Error", { timeOut: 2000 });
+      this.toastr.error("Post was not deleted", "Error");
       this.spinner.hide();
     });
   }

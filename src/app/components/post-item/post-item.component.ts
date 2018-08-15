@@ -4,8 +4,6 @@ import { ToastrService } from 'node_modules/ngx-toastr';
 import { NgxSpinnerService } from 'node_modules/ngx-spinner';
 import { CommentsService } from './../../services/comments.service';
 import { PostsService } from '../../services/posts.service';
-import { filter } from 'rxjs/operators';
-
 
 @Component({
   selector: 'app-post-item',
@@ -16,7 +14,8 @@ import { filter } from 'rxjs/operators';
 export class PostItemComponent implements OnInit {
   @Input('post') postItem: Post;
   @Output() deletePost: EventEmitter<number> = new EventEmitter();
-  public itIsEdit: boolean = false;
+  @Output () editPost: EventEmitter<Post> = new EventEmitter();
+  editPostId: number;
 
   constructor(
     public commentService: CommentsService,
@@ -26,28 +25,31 @@ export class PostItemComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.postService.editTaskEvent
-      .pipe(filter(() => this.itIsEdit)).subscribe((updatePost: Post) => {
-        this.togglePostEvent(updatePost);
-      });
-  }
-  togglePostEvent(updatePost: Post) {
-    if (this.postItem.id !== updatePost.id) {
-      this.itIsEdit = false;
-    }
+    this.postService.editTaskEvent.subscribe((post: Post) => {
+      if ( post.id === this.postItem.id ) {
+        this.editPostId = post.id;
+      } else {
+        this.editPostId = 0;
+      }
+    });
   }
 
-  onDelete(id: number) {
+  onDelete(id: number): void {
     this.deletePost.emit(id);
   }
 
   onEdit(post: Post): void {
-    this.itIsEdit = true;
-     this.postService.emitEditEvent(this.postService.addFormPost(post));
+    const updatePost = {
+      title: post.title,
+      body: post.body,
+      userId: post.userId,
+      id: post.id
+    };
+    this.editPost.emit(updatePost);
   }
 
-  onCancel(post: Post): void {
-    this.postService.emitEditEvent({userId: 2, title: '', body: ''});
+  onCancel(): void {
+    this.editPost.emit({title: '', body: '', userId: 1});
   }
 
   getPostComments(post: Post): void {
